@@ -3,26 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Image Assigner</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="JavaScript Array" content="Fetch images from external API" />
+    <title>JS-Array || Andrejs Volskis</title>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="container">
-      <h1>Email Image Assigner</h1>
-      <div>
-        <label for="emailInput">Email Address:</label>
-        <input
-          type="email"
-          id="emailInput"
-          placeholder="Enter email"
-          required
-        />
-        <button id="assignButton">Assign Image</button>
-      </div>
-      <div id="imageContainer"></div>
+      <header class="top-head">
+        <h1>Image Array Fetch</h1>
+        <select id="emailDropdown" class="email-dropdown"></select>
+        <div class="email-div">
+          <div class="email-parent">
+            <input
+              type="text"
+              id="emailInput"
+              class="email-input"
+              placeholder="Enter your email..."
+            />
+            <button class="add-email__btn" id="addEmailBtn">Add Email</button>
+          </div>
+       </div>
+        <!-- <div class="instruction" style="display: none">
+      1) Placeholder instruction 
+      2) Placeholder instruction
+      3) Placeholder instruction
+      </div> -->
+      </header>
+      <main class="main-content">
+        <div class="random-photo-parent">
+          <div class="random-photo-child">
+            <!-- <img> -->
+            <div class="button-parent">
+              <button class="add-img" id="addImgBtn">Add Image</button>
+              <button class="next-img" id="nextImgBtn">Next Image</button>
+            </div>
+          </div>
+        </div>
+        <hr class="hr"></hr>
+        <div class="image-container">
+          <div class="photo-gallery" id="photoGallery">
+            <div class="heading">
+              <p class="message__main">Add a new email, then view the images below.</p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="app.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
   </body>
 </html>

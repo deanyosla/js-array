@@ -1,0 +1,34 @@
+.top-head {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 3px map-get($color-var, coral);
+  .email-div {
+    display: block;
+  }
+  .email-parent {
+    width: 100%;
+    .email-input {
+      height: 2.5rem;
+      width: 100%;
+      padding-left: 1rem;
+      border-radius: 0.25rem;
+      border: none;
+      outline: 1px solid map-get($color-var, eng-violet);
+      display: block;
+      margin: 1rem auto 0;
+    }
+    .add-email__btn {
+      height: 2.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      width: 100%;
+      font-weight: 700;
+      background-color: map-get($color-var, eng-violet);
+      color: white;
+      margin-top: 0.75rem;
+      width: 100%;
+    }
+  }
+}
