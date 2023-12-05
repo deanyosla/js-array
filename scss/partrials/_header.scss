@@ -1,34 +1,167 @@
-.top-head {
-  margin: 0 auto;
+// .top-head {
+//   margin: 0 auto;
+//   width: 100%;
+//   text-align: center;
+//   color: #fff;
+//   text-shadow: 0 0 3px map-get($color-var, coral);
+//   .email-div {
+//     display: block;
+//   }
+//   .email-parent {
+//     width: 100%;
+//     .email-input {
+//       height: 2.5rem;
+//       width: 100%;
+//       padding-left: 1rem;
+//       border-radius: 0.25rem;
+//       border: none;
+//       outline: 1px solid map-get($color-var, eng-violet);
+//       display: block;
+//       margin: 1rem auto 0;
+//     }
+//     .add-email__btn {
+//       height: 2.5rem;
+//       border: none;
+//       border-radius: 0.25rem;
+//       width: 100%;
+//       font-weight: 700;
+//       background-color: map-get($color-var, eng-violet);
+//       color: white;
+//       margin-top: 0.75rem;
+//       width: 100%;
+//     }
+//   }
+// }
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
-  color: #fff;
-  text-shadow: 0 0 3px map-get($color-var, coral);
-  .email-div {
-    display: block;
+  max-width: 800px;
+  margin: 5%;
+}
+
+h1 {
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+input {
+  width: 60%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#error {
+  color: red;
+}
+
+#selectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#emailSection {
+  width: 100%;
+}
+
+#dropdownContainer {
+  margin-top: 10px;
+}
+
+#emailDropdown {
+  width: 60%;
+  padding: 8px;
+}
+
+#currentImageContainer {
+  margin-top: 20px;
+}
+
+#currentImage {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#nextImageButton {
+  margin-top: 10px;
+}
+
+#addImageButton {
+  margin-top: 10px;
+}
+
+#assignedImagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#imageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    margin: 5px;
   }
-  .email-parent {
-    width: 100%;
-    .email-input {
-      height: 2.5rem;
-      width: 100%;
-      padding-left: 1rem;
-      border-radius: 0.25rem;
-      border: none;
-      outline: 1px solid map-get($color-var, eng-violet);
-      display: block;
-      margin: 1rem auto 0;
-    }
-    .add-email__btn {
-      height: 2.5rem;
-      border: none;
-      border-radius: 0.25rem;
-      width: 100%;
-      font-weight: 700;
-      background-color: map-get($color-var, eng-violet);
-      color: white;
-      margin-top: 0.75rem;
-      width: 100%;
-    }
+  h2 {
+    flex-wrap: nowrap;
+  }
+}
+
+#newEmailButton {
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+/* Media query for larger screens */
+@media screen and (min-width: 992px) {
+  #dropdownContainer {
+    width: 60%;
+  }
+
+  #assignedImagesContainer {
+    margin-left: 20px;
   }
 }

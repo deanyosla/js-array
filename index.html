@@ -13,46 +13,39 @@
     <div class="container">
       <header class="top-head">
         <h1>Image Array Fetch</h1>
-        <select id="emailDropdown" class="email-dropdown"></select>
-        <div class="email-div">
-          <div class="email-parent">
-            <input
-              type="text"
-              id="emailInput"
-              class="email-input"
-              placeholder="Enter your email..."
-            />
-            <button class="add-email__btn" id="addEmailBtn">Add Email</button>
+          <div id="emailSection" class="hidden">
+              <label for="emailInput">Email Address:</label>
+              <input type="email" id="emailInput" placeholder="Enter email">
+              
+              <button id="fetchImageButton">Fetch Image</button>
           </div>
-       </div>
-        <!-- <div class="instruction" style="display: none">
-      1) Placeholder instruction 
-      2) Placeholder instruction
-      3) Placeholder instruction
-      </div> -->
-      </header>
-      <main class="main-content">
-        <div class="random-photo-parent">
-          <div class="random-photo-child">
-            <!-- <img> -->
-            <div class="button-parent">
-              <button class="add-img" id="addImgBtn">Add Image</button>
-              <button class="next-img" id="nextImgBtn">Next Image</button>
-            </div>
+          <button id="newEmailButton">New Email</button>
+          <div id="dropdownContainer">
+              <label for="emailDropdown">Select Email:</label>
+              <select id="emailDropdown"></select>
           </div>
-        </div>
-        <hr class="hr"></hr>
-        <div class="image-container">
-          <div class="photo-gallery" id="photoGallery">
-            <div class="heading">
-              <p class="message__main">Add a new email, then view the images below.</p>
-            </div>
+          <div id="error" class="error-message"></div>
+          <!-- Display the currently fetched image -->
+          <div id="currentImageContainer">
+              <img id="currentImage" src="" alt="Current Image">
+              <button id="nextImageButton">Next Image</button>
           </div>
-        </div>
-      </main>
+          <!-- Button to add the currently displayed image to the email -->
+          <button id="addImageButton">Add Image</button>
+      </div>
+  
+      <!-- Container for Assigned Images -->
+      
     </div>
-    <script src="js/main.js"></script>
+    <div class="container">
+    <div id="assignedImagesContainer">
+      <h1>Selected Images</h1>
+      <div id="imageContainer"></div>
+  </div>
+</div>
     <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/main.js"></script>
+   
     <!-- <script src="js/select2.min.js"></script>  ...not sure if I'll be using it yet...-->
     <script
     src="https://kit.fontawesome.com/5cbcf5da8c.js"
