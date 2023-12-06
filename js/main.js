@@ -29,6 +29,13 @@ $(document).ready(function () {
               currentImageInfo = { email, imageUrl };
               if (!isImageAssigned(email, imageUrl)) {
                   currentImage.attr('src', imageUrl);
+                  assignImageToEmail(email, currentImageInfo);
+                  saveEmailToLocalStorage(email);
+                  updateImageContainer();
+                  emailDropdown.append(`<option value="${email}">${email}</option>`);
+                  emailDropdown.val(email);
+                  emailContainer.addClass('hidden');
+                  dropdownContainer.removeClass('hidden');              
                   errorDiv.empty();
               } else {
                   errorDiv.text('This image is already assigned to the selected email.');
@@ -138,6 +145,7 @@ $(document).ready(function () {
                     // Delete the image and update the container
                     deleteImage(activeEmail, imageInfo.imageUrl);
                     updateImageContainer();
+                    errorDiv.text('Image deleted.');
                 }
             });
 

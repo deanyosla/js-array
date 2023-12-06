@@ -117,13 +117,3 @@ button #error {
 .hidden {
   display: none;
 }
-/* Media query for larger screens */
-@media screen and (min-width: 992px) {
-  #dropdownContainer {
-    width: 60%;
-  }
-
-  #assignedImagesContainer {
-    margin-left: 20px;
-  }
-}
