@@ -8,7 +8,7 @@
     <link rel="icon" type="image/icon" href="image/photo_icon.svg">
     
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/turretcss.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/turretcss.min.css">
   </head>
   <body>
     <div class="container">
@@ -18,25 +18,27 @@
               <label for="emailInput">Email Address:</label>
               <input type="email" id="emailInput" placeholder="Enter email">
               
-              <button id="fetchImageButton">Fetch Image</button>
+              <button id="fetchImageButton" class="box-shadow-m">Fetch Image</button>
           </div>
-          <button id="newEmailButton">New Email</button>
+          <button id="newEmailButton" class="box-shadow-m">New Email</button>
           <div id="dropdownContainer">
               <label for="emailDropdown">Select Email:</label>
               <select id="emailDropdown"></select>
           </div>
-          <div id="error" class="error-message"></div>
+          
           <!-- Display the currently fetched image -->
           <div id="currentImageContainer">
               <img id="currentImage" src="" alt="Current Image">
-              <button id="nextImageButton">Next Image</button>
+              <button id="nextImageButton" class="box-shadow-m">Next Image</button>
+              <button id="addImageButton" class="box-shadow-m">Add Image</button>
           </div>
+          <div id="error" class="error-message"></div>
           <!-- Button to add the currently displayed image to the email -->
-          <button id="addImageButton">Add Image</button>
+          
       </div> 
       <!-- Container for Assigned Images -->
     </div>
-    <div class="container">
+    <div class="container overflow">
     <div id="assignedImagesContainer">
       <h1>Selected Images</h1>
       <div id="imageContainer"></div>

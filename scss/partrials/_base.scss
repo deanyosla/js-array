@@ -4,7 +4,27 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Arial", sans-serif;
   overflow-x: hidden;
   background-color: map-get($color-var, platinum);
+  letter-spacing: 0.4px !important;
+}
+
+@include xl {
+  body {
+    display: flex;
+    flex-direction: row;
+  }
+  .container {
+    width: 45% !important;
+  }
+  #currentImage {
+    width: 350px;
+  }
+}
+
+@include sm-landscape {
+  .container {
+    width: 90% !important;
+    max-height: map-get($b-point, sm);
+  }
 }

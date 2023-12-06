@@ -9,3 +9,64 @@ $color-var: (
   error: #ff0000d9,
   err-bg: #ffa0a0d9,
 );
+
+$b-point: (
+  "xs": 300px,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "xxl": 1450px,
+);
+
+$landscape-height: 450px;
+
+@mixin xs {
+  @media (min-width: map-get($b-point, "xs")) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: map-get($b-point, "sm")) {
+    @content;
+  }
+}
+
+// small vw - in landscape mode
+@mixin sm-landscape {
+  @media (min-width: map-get($b-point, "sm")) and (max-height: $landscape-height) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: map-get($b-point, "md")) {
+    @content;
+  }
+}
+
+// medium vw - in landscape mode
+@mixin md-landscape-phone {
+  @media (min-width: map-get($b-point, "md")) and (max-height: $landscape-height) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: map-get($b-point, "lg")) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: map-get($b-point, "xl")) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: map-get($b-point, "xxl")) {
+    @content;
+  }
+}

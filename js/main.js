@@ -7,7 +7,6 @@ $(document).ready(function () {
   const emailContainer = $('#emailSection');
   const dropdownContainer = $('#dropdownContainer');
   const emailDropdown = $('#emailDropdown');
-  const currentImageContainer = $('#currentImageContainer');
   const currentImage = $('#currentImage');
   const assignedImagesContainer = $('#assignedImagesContainer');
   const imageContainer = $('#imageContainer');
@@ -42,7 +41,7 @@ $(document).ready(function () {
               }
           });
       } else {
-          errorDiv.text('Please select a valid email address.');
+          errorDiv.text('Please input a valid email address.');
       }
   });
 
