@@ -5,28 +5,9 @@
 }
 
 body {
-  overflow-x: hidden;
-}
-
-body {
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  text-align: center;
-  max-width: 800px;
-  margin: 5%;
+  overflow-x: hidden;
+  background-color: #e8e8e8;
 }
 
 h1 {
@@ -40,26 +21,34 @@ label {
 }
 
 input {
-  width: 60%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 16px;
+  height: 2.5rem;
+  width: 100%;
+  padding-left: 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  outline: 1px solid #564256;
+  display: block;
+  margin: 1rem auto 0;
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
+  height: 2.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
+  width: 100%;
+  font-weight: 700;
+  --primary-400: color-mod(var(--primary) tint(10%) saturation(+2.5%));
+  color: white;
+  margin-top: 0.75rem;
+  width: 100%;
   cursor: pointer;
 }
-
 button:hover {
-  background-color: #45a049;
+  background-color: #45a049 !important;
+  color: #fff !important;
 }
 
-#error {
+button #error {
   color: red;
 }
 
@@ -74,12 +63,22 @@ button:hover {
 }
 
 #dropdownContainer {
+  display: flex;
   margin-top: 10px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
 }
-
-#emailDropdown {
-  width: 60%;
+#dropdownContainer #emailDropdown {
+  width: 80%;
   padding: 8px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+#dropdownContainer #emailDropdown option:hover {
+  color: #fff !important;
+  background-color: #45a049 !important;
 }
 
 #currentImageContainer {
@@ -139,6 +138,16 @@ button:hover {
   #assignedImagesContainer {
     margin-left: 20px;
   }
+}
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(83, 83, 83, 0.1);
+  width: 100%;
+  text-align: center;
+  max-width: 800px;
+  margin: 5%;
 }
 
 /*# sourceMappingURL=index.css.map */
