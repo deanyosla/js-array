@@ -48,8 +48,16 @@ button:hover {
   color: #fff !important;
 }
 
-button #error {
-  color: red;
+#error {
+  display: inline-flex;
+  color: rgba(255, 0, 0, 0.8509803922);
+  padding: 15px;
+  font-weight: 500;
+  align-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  border-radius: 5px;
 }
 
 #selectionContainer {
@@ -75,10 +83,13 @@ button #error {
   text-align: center;
   font-size: 1.25rem;
   font-weight: 400;
+  border-radius: 5px;
 }
-#dropdownContainer #emailDropdown option:hover {
-  color: #fff !important;
-  background-color: #45a049 !important;
+#dropdownContainer #emailDropdown option {
+  margin-bottom: 0.5rem;
+}
+#dropdownContainer #emailDropdown:focus {
+  outline: none;
 }
 
 #currentImageContainer {

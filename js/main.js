@@ -145,7 +145,7 @@ $(document).ready(function () {
                     // Delete the image and update the container
                     deleteImage(activeEmail, imageInfo.imageUrl);
                     updateImageContainer();
-                    errorDiv.text('Image deleted.');
+                    errorDiv.text('Image deleted');
                 }
             });
 
