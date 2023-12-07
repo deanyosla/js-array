@@ -38,10 +38,16 @@ $(document).ready(function () {
                   errorDiv.empty();
               } else {
                   errorDiv.text('This image is already assigned to the selected email.');
+                  setTimeout(function () {
+                    errorDiv.text('');
+                }, 500);
               }
           });
       } else {
           errorDiv.text('Please input a valid email address.');
+          setTimeout(function () {
+            errorDiv.text('');
+        }, 500);
       }
   });
 
@@ -56,9 +62,15 @@ $(document).ready(function () {
               errorDiv.empty();
           } else {
               errorDiv.text('This image is already assigned to the selected email.');
+              setTimeout(function () {
+                errorDiv.text('');
+            }, 500);
           }
       } else {
           errorDiv.text('Please select a valid email address and fetch an image before adding.');
+          setTimeout(function () {
+            errorDiv.text('');
+        }, 500);
       }
   });
 
@@ -71,6 +83,9 @@ $(document).ready(function () {
               errorDiv.empty();
           } else {
               errorDiv.text('This image is already assigned to the selected email.');
+              setTimeout(function () {
+                errorDiv.text('');
+            }, 500);
           }
       });
   });
@@ -145,7 +160,11 @@ $(document).ready(function () {
                     deleteImage(activeEmail, imageInfo.imageUrl);
                     updateImageContainer();
                     errorDiv.text('Image deleted');
+                    setTimeout(function () {
+                        errorDiv.text('');
+                    }, 500);
                 }
+                
             });
 
             emailImagesContainer.append(imageElement);

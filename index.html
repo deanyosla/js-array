@@ -5,52 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="JavaScript Array" content="Fetch images from external API" />
     <title>JS-Array || Andrejs Volskis</title>
-    <link rel="icon" type="image/icon" href="image/photo_icon.svg">
-    
+    <link rel="icon" type="image/icon" href="image/photo_icon.svg" />
+
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/turretcss.min.css">
+    <link rel="stylesheet" href="css/turretcss.min.css" />
   </head>
 
-  <body>   
+  <body>
     <div class="container">
-      <h1>Image Array Fetch</h1> 
-          <div id="emailSection" class="hidden">
-              <label for="emailInput">Email Address:</label>
-              <input type="email" id="emailInput" placeholder="Enter email">
-              
-              <button id="fetchImageButton" class="box-shadow-m">Fetch Image</button>
-          </div>
-          <button id="newEmailButton" class="box-shadow-m">New Email</button>
-          <div id="dropdownContainer">
-              <label for="emailDropdown">Select Email:</label>
-              <select id="emailDropdown"></select>
-          </div>
-          
-          <!-- Display the currently fetched image -->
-          <div id="currentImageContainer">
-              <img id="currentImage" src="" alt="Current Image">
-              <div class="button-parent">
-               <button id="nextImageButton" class="box-shadow-m">Next Image</button>
-               <button id="addImageButton" class="box-shadow-m">Add Image</button>
-              </div>
-          </div>
-          <div id="error" class="error-message"></div>
-          <!-- Button to add the currently displayed image to the email -->
-          
-      </div> 
-      <!-- Container for Assigned Images -->
+      <h1>Image Array Fetch</h1>
+      <div id="emailSection" class="hidden">
+        <label for="emailInput">Email Address:</label>
+        <input type="email" id="emailInput" placeholder="Enter email" />
+
+        <button id="fetchImageButton" class="box-shadow-m">Fetch Image</button>
+      </div>
+      <button id="newEmailButton" class="box-shadow-m">New Email</button>
+      <div id="dropdownContainer">
+        <label for="emailDropdown">Select Email:</label>
+        <select id="emailDropdown"></select>
+      </div>
+
+      <!-- Display the currently fetched image -->
+      <div id="currentImageContainer">
+        <img
+          id="currentImage"
+          src="https://picsum.photos/200"
+          alt="Current Image"
+        />
+        <div class="button-parent">
+          <button id="nextImageButton" class="box-shadow-m">Next Image</button>
+          <button id="addImageButton" class="box-shadow-m">Add Image</button>
+        </div>
+      </div>
+      <div id="error" class="error-message"></div>
     </div>
+    <!-- Container for Assigned Images -->
     <div class="container overflow">
-    <div id="assignedImagesContainer">
-      <h1>Selected Images</h1>
-      <div id="imageContainer"></div>
-  </div>
-</div>
+      <div id="assignedImagesContainer">
+        <h1>Selected Images</h1>
+        <div id="imageContainer"></div>
+      </div>
+    </div>
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/main.js"></script>
     <script
-    src="https://kit.fontawesome.com/5cbcf5da8c.js"
-    crossorigin="anonymous"
-  ></script>
+      src="https://kit.fontawesome.com/5cbcf5da8c.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
