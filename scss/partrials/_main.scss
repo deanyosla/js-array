@@ -1,27 +1,12 @@
-h1 {
-  color: #333;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-}
-
 input {
-  height: 2.5rem;
-  width: 100%;
-  padding-left: 1rem;
-  border-radius: 0.25rem;
-  border: none;
+  width: 80% !important;
   outline: 1px solid map-get($color-var, eng-violet);
-  display: block;
-  margin: 1rem auto 0;
+  margin: 2% auto !important;
 }
 
 button {
-  --primary-400: color-mod(var(--primary) tint(10%) saturation(+2.5%));
-  width: 100%;
+  background-color: map-get($color-var, platinum) !important;
+  width: 80%;
   cursor: pointer;
   &:hover {
     background-color: map-get($color-var, green) !important;
@@ -29,7 +14,17 @@ button {
     box-shadow: 0 1px 4px 1px rgba(46, 49, 56, 0.5) !important;
   }
 }
-
+.button-parent {
+  @include lg {
+    button {
+      width: 35%;
+    }
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
 #error {
   display: inline-flex;
   color: map-get($map: $color-var, $key: error);
@@ -49,7 +44,8 @@ button {
 }
 
 #emailSection {
-  width: 100%;
+  width: 70%;
+  margin: auto;
 }
 
 #dropdownContainer {
@@ -59,7 +55,7 @@ button {
   flex-wrap: wrap;
   align-content: center;
   #emailDropdown {
-    width: 80%;
+    width: 70%;
     padding: 8px;
     text-align: center;
     font-size: 1.25rem;
@@ -75,9 +71,9 @@ button {
   margin-top: 20px;
   #currentImage {
     max-width: 100%;
-    max-height: 350px;
+    max-height: 300px;
     border-radius: 5px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.25rem;
     outline: solid map-get($map: $color-var, $key: green);
     outline-offset: 2px;
     border: solid 3px map-get($map: $color-var, $key: green);
@@ -108,6 +104,10 @@ button {
     max-height: 200px;
     border-radius: 4px;
     margin: 5px;
+    transition: transform 0.2s;
+    &:hover {
+      transform: scale(1.15);
+    }
   }
   h2 {
     flex-wrap: nowrap;
@@ -116,6 +116,7 @@ button {
 
 #newEmailButton {
   margin-top: 10px;
+  width: 56%;
 }
 
 .hidden {

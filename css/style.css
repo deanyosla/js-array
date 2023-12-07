@@ -6,7 +6,7 @@
 
 body {
   overflow-x: hidden;
-  background-color: #e8e8e8;
+  background-color: #e8e8e8 !important;
   letter-spacing: 0.4px !important;
 }
 
@@ -19,7 +19,7 @@ body {
     width: 45% !important;
   }
   #currentImage {
-    width: 350px;
+    width: 300px;
   }
 }
 @media (min-width: 576px) and (max-height: 450px) {
@@ -28,36 +28,33 @@ body {
     max-height: 576px;
   }
 }
-h1 {
-  color: #333;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-}
-
 input {
-  height: 2.5rem;
-  width: 100%;
-  padding-left: 1rem;
-  border-radius: 0.25rem;
-  border: none;
+  width: 80% !important;
   outline: 1px solid #564256;
-  display: block;
-  margin: 1rem auto 0;
+  margin: 2% auto !important;
 }
 
 button {
-  --primary-400: color-mod(var(--primary) tint(10%) saturation(+2.5%));
-  width: 100%;
+  background-color: #e8e8e8 !important;
+  width: 80%;
   cursor: pointer;
 }
 button:hover {
   background-color: #45a049 !important;
   color: #fff !important;
   box-shadow: 0 1px 4px 1px rgba(46, 49, 56, 0.5) !important;
+}
+
+@media (min-width: 992px) {
+  .button-parent {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .button-parent button {
+    width: 35%;
+  }
 }
 
 #error {
@@ -79,7 +76,8 @@ button:hover {
 }
 
 #emailSection {
-  width: 100%;
+  width: 70%;
+  margin: auto;
 }
 
 #dropdownContainer {
@@ -90,7 +88,7 @@ button:hover {
   align-content: center;
 }
 #dropdownContainer #emailDropdown {
-  width: 80%;
+  width: 70%;
   padding: 8px;
   text-align: center;
   font-size: 1.25rem;
@@ -106,9 +104,9 @@ button:hover {
 }
 #currentImageContainer #currentImage {
   max-width: 100%;
-  max-height: 350px;
+  max-height: 300px;
   border-radius: 5px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
   outline: solid #45a049;
   outline-offset: 2px;
   border: solid 3px #45a049;
@@ -139,6 +137,10 @@ button:hover {
   max-height: 200px;
   border-radius: 4px;
   margin: 5px;
+  transition: transform 0.2s;
+}
+#imageContainer img:hover {
+  transform: scale(1.15);
 }
 #imageContainer h2 {
   flex-wrap: nowrap;
@@ -146,6 +148,7 @@ button:hover {
 
 #newEmailButton {
   margin-top: 10px;
+  width: 56%;
 }
 
 .hidden {
@@ -162,6 +165,11 @@ button:hover {
 }
 .container.overflow {
   overflow-y: scroll;
+}
+
+.top-head {
+  display: flex;
+  flex-direction: row;
 }
 
 /*# sourceMappingURL=style.css.map */

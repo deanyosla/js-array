@@ -5,7 +5,7 @@
 }
 body {
   overflow-x: hidden;
-  background-color: map-get($color-var, platinum);
+  background-color: map-get($color-var, platinum) !important;
   letter-spacing: 0.4px !important;
 }
 
@@ -18,7 +18,7 @@ body {
     width: 45% !important;
   }
   #currentImage {
-    width: 350px;
+    width: 300px;
   }
 }
 

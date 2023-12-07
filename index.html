@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/turretcss.min.css">
   </head>
-  <body>
+
+  <body>   
     <div class="container">
-      <header class="top-head">
-        <h1>Image Array Fetch</h1>
+      <h1>Image Array Fetch</h1> 
           <div id="emailSection" class="hidden">
               <label for="emailInput">Email Address:</label>
               <input type="email" id="emailInput" placeholder="Enter email">
@@ -29,8 +29,10 @@
           <!-- Display the currently fetched image -->
           <div id="currentImageContainer">
               <img id="currentImage" src="" alt="Current Image">
-              <button id="nextImageButton" class="box-shadow-m">Next Image</button>
-              <button id="addImageButton" class="box-shadow-m">Add Image</button>
+              <div class="button-parent">
+               <button id="nextImageButton" class="box-shadow-m">Next Image</button>
+               <button id="addImageButton" class="box-shadow-m">Add Image</button>
+              </div>
           </div>
           <div id="error" class="error-message"></div>
           <!-- Button to add the currently displayed image to the email -->
