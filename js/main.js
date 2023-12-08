@@ -1,210 +1,232 @@
-$(document).ready(function () {
-  const emailInput = $('#emailInput');
-  const fetchImageButton = $('#fetchImageButton');
-  const addImageButton = $('#addImageButton');
-  const nextImageButton = $('#nextImageButton');
-  const newEmailButton = $('#newEmailButton');
-  const emailContainer = $('#emailSection');
-  const dropdownContainer = $('#dropdownContainer');
-  const emailDropdown = $('#emailDropdown');
-  const currentImage = $('#currentImage');
-  const assignedImagesContainer = $('#assignedImagesContainer');
-  const imageContainer = $('#imageContainer');
-  const errorDiv = $('#error');
-
-  let imageAssignments = {};
-  let currentImageInfo = {};
-
-  // Populate the dropdown with saved emails from localStorage
-  populateDropdown();
-
-  // Set a default image source
-  currentImage.attr('src', 'https://picsum.photos/200');
-
-  fetchImageButton.click(function () {
+document.addEventListener('DOMContentLoaded', function () {
+    const emailInput = document.getElementById('emailInput');
+    const fetchImageButton = document.getElementById('fetchImageButton');
+    const addImageButton = document.getElementById('addImageButton');
+    const nextImageButton = document.getElementById('nextImageButton');
+    const newEmailButton = document.getElementById('newEmailButton');
+    const emailContainer = document.getElementById('emailSection');
+    const dropdownContainer = document.getElementById('dropdownContainer');
+    const emailDropdown = document.getElementById('emailDropdown');
+    const currentImage = document.getElementById('currentImage');
+    const assignedImagesContainer = document.getElementById('assignedImagesContainer');
+    const imageContainer = document.getElementById('imageContainer');
+    const errorDiv = document.getElementById('error');
+  
+    let imageAssignments = {};
+    let currentImageInfo = {};
+  
+    // Populate the dropdown with saved emails from localStorage
+    populateDropdown();
+  
+    // Set a default image source
+    currentImage.src = 'https://picsum.photos/200';
+  
+    fetchImageButton.addEventListener('click', function () {
       const email = getCurrentEmail();
       if (isValidEmail(email)) {
-          loadRandomImage().then(function (imageUrl) {
-              currentImageInfo = { email, imageUrl };
-              if (!isImageAssigned(email, imageUrl)) {
-                  currentImage.attr('src', imageUrl);
-                  assignImageToEmail(email, currentImageInfo);
-                  saveEmailToLocalStorage(email);
-                  updateImageContainer();
-                  emailDropdown.append(`<option value="${email}">${email}</option>`);
-                  emailDropdown.val(email);
-                  emailContainer.addClass('hidden');
-                  dropdownContainer.removeClass('hidden');              
-                  errorDiv.empty();
-              } else {
-                  errorDiv.text('This image is already assigned to the selected email.');
-                  setTimeout(function () {
-                    errorDiv.text('');
-                }, 500);
-              }
-          });
-      } else {
-          errorDiv.text('Please input a valid email address.');
-          setTimeout(function () {
-            errorDiv.text('');
-        }, 500);
-      }
-  });
-
-  addImageButton.click(function () {
-      const email = getCurrentEmail();
-      if (isValidEmail(email) && currentImageInfo.imageUrl) {
-          if (!isImageAssigned(email, currentImageInfo.imageUrl)) {
-              assignImageToEmail(email, currentImageInfo);
-              updateImageContainer();
-              saveEmailToLocalStorage(email);
-              clearCurrentImage();
-              errorDiv.empty();
-          } else {
-              errorDiv.text('This image is already assigned to the selected email.');
-              setTimeout(function () {
-                errorDiv.text('');
-            }, 500);
-          }
-      } else {
-          errorDiv.text('Please select a valid email address and fetch an image before adding.');
-          setTimeout(function () {
-            errorDiv.text('');
-        }, 500);
-      }
-  });
-
-  nextImageButton.click(function () {
-      const email = getCurrentEmail();
-      loadRandomImage().then(function (imageUrl) {
+        loadRandomImage().then(function (imageUrl) {
           currentImageInfo = { email, imageUrl };
           if (!isImageAssigned(email, imageUrl)) {
-              currentImage.attr('src', imageUrl);
-              errorDiv.empty();
+            currentImage.src = imageUrl;
+            assignImageToEmail(email, currentImageInfo);
+            saveEmailToLocalStorage(email);
+            updateImageContainer();
+            emailDropdown.innerHTML += `<option value="${email}">${email}</option>`;
+            emailDropdown.value = email;
+            emailContainer.classList.add('hidden');
+            dropdownContainer.classList.remove('hidden');
+            errorDiv.innerHTML = '';
           } else {
-              errorDiv.text('This image is already assigned to the selected email.');
-              setTimeout(function () {
-                errorDiv.text('');
+            errorDiv.textContent = 'This image is already assigned to the selected email.';
+            setTimeout(function () {
+              errorDiv.textContent = '';
             }, 500);
           }
+        });
+      } else {
+        errorDiv.textContent = 'Please input a valid email address.';
+        setTimeout(function () {
+          errorDiv.textContent = '';
+        }, 500);
+      }
+    });
+  
+    addImageButton.addEventListener('click', function () {
+      const email = getCurrentEmail();
+      if (isValidEmail(email)) {
+        addImage(email);
+      } else {
+        errorDiv.textContent = 'Please select a valid email address.';
+        setTimeout(function () {
+          errorDiv.textContent = '';
+        }, 500);
+      }
+    });
+  
+    function addImage(email) {
+        if (!isImageAssigned(email, currentImage.src)) {
+          // Update currentImageInfo with the current image source
+          currentImageInfo = { email, imageUrl: currentImage.src };
+          
+          // Proceed with assignment
+          assignImageToEmail(email, currentImageInfo);
+          updateImageContainer();
+          saveEmailToLocalStorage(email);
+          saveImageAssignmentsToLocalStorage();
+          clearCurrentImage();
+          errorDiv.innerHTML = '';
+        } else {
+          errorDiv.textContent = 'This image is already assigned to the selected email.';
+          setTimeout(function () {
+            errorDiv.textContent = '';
+          }, 500);
+        }
+      }
+      
+      
+      
+    nextImageButton.addEventListener('click', function () {
+      const email = getCurrentEmail();
+      loadRandomImage().then(function (imageUrl) {
+        currentImageInfo = { email, imageUrl };
+        if (!isImageAssigned(email, imageUrl)) {
+          currentImage.src = imageUrl;
+          errorDiv.innerHTML = '';
+        } else {
+          errorDiv.textContent = 'This image is already assigned to the selected email.';
+          setTimeout(function () {
+            errorDiv.textContent = '';
+          }, 500);
+        }
       });
-  });
-
-  newEmailButton.click(function () {
-    emailInput.val(''); // Clear the email input field
-    emailContainer.removeClass('hidden');
-    dropdownContainer.addClass('hidden');
-    emailDropdown.val(''); // Clear the selected value in the dropdown
-    updateImageContainer();
-    clearCurrentImage();
-    errorDiv.empty();
-});
-
- emailDropdown.change(function () {
-    const selectedEmail = emailDropdown.val();
-    if (selectedEmail) {
-        emailContainer.addClass('hidden');
-        dropdownContainer.removeClass('hidden');
+    });
+  
+    newEmailButton.addEventListener('click', function () {
+      emailInput.value = ''; // Clear the email input field
+      emailContainer.classList.remove('hidden');
+      dropdownContainer.classList.add('hidden');
+      emailDropdown.value = ''; // Clear the selected value in the dropdown
+      updateImageContainer();
+      clearCurrentImage();
+      errorDiv.innerHTML = '';
+    });
+  
+    emailDropdown.addEventListener('change', function () {
+      const selectedEmail = emailDropdown.value;
+      if (selectedEmail) {
+        emailContainer.classList.add('hidden');
+        dropdownContainer.classList.remove('hidden');
         updateImageContainer();
         clearCurrentImage();
+      }
+    });
+  
+    function getCurrentEmail() {
+      return emailDropdown.value || emailInput.value;
     }
-});
-
-  function getCurrentEmail() {
-      return emailDropdown.val() || emailInput.val();
-  }
-
-  function isValidEmail(email) {
+  
+    function isValidEmail(email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
-  }
-
-  function loadRandomImage() {
+    }
+  
+    function loadRandomImage() {
       return new Promise(function (resolve) {
-          const imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
-          resolve(imageUrl);
+        const imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
+        resolve(imageUrl);
       });
-  }
-
-  function assignImageToEmail(email, imageInfo) {
+    }
+  
+    function assignImageToEmail(email, imageInfo) {
       if (!imageAssignments[email]) {
-          imageAssignments[email] = [];
+        imageAssignments[email] = [];
       }
       imageAssignments[email].push(imageInfo);
       saveImageAssignmentsToLocalStorage();
-  }
-
-  function isImageAssigned(email, imageUrl) {
-      return imageAssignments[email]?.some(info => info.imageUrl === imageUrl);
-  }
-
-  function updateImageContainer() {
-    assignedImagesContainer.show();
-    imageContainer.empty();
-    
-    const activeEmail = getCurrentEmail();
-    
-    if (activeEmail) {
-        // Display the active email at the top
-        imageContainer.append(`<h3>${activeEmail}</h3>`);
-        
-        const emailImagesContainer = $('<div>'); // Create a new container for images
-        imageAssignments[activeEmail]?.forEach(function (imageInfo) {
-            const imageElement = $(`<img src="${imageInfo.imageUrl}" alt="Assigned Image">`);
-            
-            // Add an onclick function to delete the image when clicked
-            imageElement.click(function (event) {
-                // Check if it's a left-click (button 0)
-                if (event.button === 0) {
-                    // Delete the image and update the container
-                    deleteImage(activeEmail, imageInfo.imageUrl);
-                    updateImageContainer();
-                    errorDiv.text('Image deleted');
-                    setTimeout(function () {
-                        errorDiv.text('');
-                    }, 500);
-                }
-                
-            });
-
-            emailImagesContainer.append(imageElement);
-        });
-
-        // Append the container for images to the main imageContainer
-        imageContainer.append(emailImagesContainer);
-    } else {
-        assignedImagesContainer.hide(); // Hide the container if no email is selected
     }
-}
-
-function deleteImage(email, imageUrl) {
-    const index = imageAssignments[email]?.findIndex(info => info.imageUrl === imageUrl);
-    if (index !== -1) {
+  
+    function isImageAssigned(email, imageUrl) {
+      return imageAssignments[email]?.some(info => info.imageUrl === imageUrl);
+    }
+  
+    function updateImageContainer() {
+      assignedImagesContainer.style.display = 'block';
+      imageContainer.innerHTML = '';
+  
+      const activeEmail = getCurrentEmail();
+  
+      if (activeEmail) {
+        // Display the active email at the top
+        imageContainer.innerHTML += `<h3>${activeEmail}</h3>`;
+  
+        const emailImagesContainer = document.createElement('div'); // Create a new container for images
+        imageAssignments[activeEmail]?.forEach(function (imageInfo) {
+          const imageElement = document.createElement('img');
+          imageElement.src = imageInfo.imageUrl;
+          imageElement.alt = 'Assigned Image';
+  
+          // Add an onclick function to delete the image when clicked
+          imageElement.addEventListener('click', function (event) {
+            // Check if it's a left-click (button 0)
+            if (event.button === 0) {
+              // Delete the image and update the container
+              deleteImage(activeEmail, imageInfo.imageUrl);
+              updateImageContainer();
+              errorDiv.textContent = 'Image deleted';
+              setTimeout(function () {
+                errorDiv.textContent = '';
+              }, 500);
+            }
+          });
+  
+          emailImagesContainer.appendChild(imageElement);
+        });
+  
+        // Append the container for images to the main imageContainer
+        imageContainer.appendChild(emailImagesContainer);
+      } else {
+        assignedImagesContainer.style.display = 'none'; // Hide the container if no email is selected
+      }
+    }
+  
+    function deleteImage(email, imageUrl) {
+      const index = imageAssignments[email]?.findIndex(info => info.imageUrl === imageUrl);
+      if (index !== -1) {
         imageAssignments[email].splice(index, 1);
         saveImageAssignmentsToLocalStorage();
+      }
     }
-}
-
-function saveImageAssignmentsToLocalStorage() {
-    localStorage.setItem('imageAssignerImages', JSON.stringify(imageAssignments));
-}
-  function saveEmailToLocalStorage(email) {
+  
+    function saveImageAssignmentsToLocalStorage() {
+      localStorage.setItem('imageAssignerImages', JSON.stringify(imageAssignments));
+    }
+  
+    function saveEmailToLocalStorage(email) {
       const savedEmails = JSON.parse(localStorage.getItem('emailAssignerEmails')) || [];
       if (!savedEmails.includes(email)) {
-          savedEmails.push(email);
-          localStorage.setItem('emailAssignerEmails', JSON.stringify(savedEmails));
+        savedEmails.push(email);
+        localStorage.setItem('emailAssignerEmails', JSON.stringify(savedEmails));
       }
-  }
-
-  function populateDropdown() {
+    }
+  
+    function loadImageAssignmentsFromLocalStorage() {
+      const savedImageAssignments = JSON.parse(localStorage.getItem('imageAssignerImages')) || {};
+      imageAssignments = savedImageAssignments;
+    }
+  
+    function populateDropdown() {
       const savedEmails = JSON.parse(localStorage.getItem('emailAssignerEmails')) || [];
-      emailDropdown.empty();
+      emailDropdown.innerHTML = '';
       savedEmails.forEach(function (savedEmail) {
-          emailDropdown.append(`<option value="${savedEmail}">${savedEmail}</option>`);
+        emailDropdown.innerHTML += `<option value="${savedEmail}">${savedEmail}</option>`;
       });
-  }
-
-  function clearCurrentImage() {
+    }
+  
+    function clearCurrentImage() {
       currentImageInfo = {};
-  }
-});
+    }
+  
+    // Call the function to load assigned images from local storage when the script starts
+    loadImageAssignmentsFromLocalStorage();
+  });
+  
