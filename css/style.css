@@ -156,6 +156,11 @@ button:hover {
   display: none;
 }
 
+.clear-images-button {
+  width: 60%;
+  margin: 2% auto;
+}
+
 .container {
   background-color: #fff;
   padding: 20px;
