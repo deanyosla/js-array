@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const email = getCurrentEmail();
     if (isValidEmail(email)) {
       addImage(email);
+      checkImageCountAndAppendButton();
       emailDropdown.value = email;
       emailContainer.classList.add('hidden');
       dropdownContainer.classList.remove('hidden');
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       saveImageAssignmentsToLocalStorage();
   
       clearCurrentImage();
+
       errorDiv.innerHTML = '';
   
       // Check if the option already exists before adding a new one
@@ -95,6 +97,47 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(function () {
         errorDiv.textContent = '';
       }, 1000);
+    }
+  }
+
+  function clearImagesForEmail(email) {
+    // Clear images from the container
+    imageAssignments[email] = [];
+    updateImageContainer();
+  
+    // Clear images from local storage
+    saveImageAssignmentsToLocalStorage();
+  
+    // Remove the "Clear Images" button
+    assignedImagesContainer.querySelectorAll('.clear-images-button').forEach(button => {
+      button.remove();
+    })
+  }
+
+  function checkImageCountAndAppendButton() {
+    const activeEmail = getCurrentEmail();
+  
+    if (activeEmail) {
+      const imageCount = imageAssignments[activeEmail]?.length || 0;
+  
+      // Remove existing buttons before adding a new one
+      assignedImagesContainer.querySelectorAll('.clear-images-button').forEach(button => {
+        button.remove();
+      });
+  
+      // Check if the image count exceeds 10
+      if (imageCount >= 9) {
+        // Append a button to clear images
+        const clearImagesButton = document.createElement('button');
+        clearImagesButton.textContent = 'Clear Images';
+        clearImagesButton.classList.add('clear-images-button');
+        clearImagesButton.addEventListener('click', function () {
+          clearImagesForEmail(activeEmail);
+        });
+  
+        // Append the button to the container
+        assignedImagesContainer.append(clearImagesButton);
+      }
     }
   }
   
@@ -157,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
       imageAssignments[email] = [];
     }
     imageAssignments[email].push(imageInfo);
+    checkImageCountAndAppendButton();
     saveImageAssignmentsToLocalStorage();
   }
 
