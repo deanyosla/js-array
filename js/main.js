@@ -55,6 +55,10 @@ document.addEventListener('DOMContentLoaded', function () {
       const email = getCurrentEmail();
       if (isValidEmail(email)) {
         addImage(email);
+            emailDropdown.innerHTML += `<option value="${email}">${email}</option>`;
+            emailDropdown.value = email;
+            emailContainer.classList.add('hidden');
+            dropdownContainer.classList.remove('hidden');
       } else {
         errorDiv.textContent = 'Please select a valid email address.';
         setTimeout(function () {
