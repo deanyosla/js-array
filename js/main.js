@@ -28,12 +28,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
   addImageButton.addEventListener('click', function () {
     const email = getCurrentEmail();
+    const imageUrl = currentImage.src;
+  
     if (isValidEmail(email)) {
-      addImage(email);
-      checkImageCountAndAppendButton();
-      emailDropdown.value = email;
-      emailContainer.classList.add('hidden');
-      dropdownContainer.classList.remove('hidden');
+      if (imageUrl && !isImageAssigned(email, imageUrl)) {
+        addImage(email, imageUrl); // Pass the imageUrl directly
+        checkImageCountAndAppendButton();
+        emailDropdown.value = email;
+        emailContainer.classList.add('hidden');
+        dropdownContainer.classList.remove('hidden');
+      } else {
+        errorDiv.textContent = 'This image is already assigned to the selected email.';
+        setTimeout(function () {
+          errorDiv.textContent = '';
+        }, 1000);
+      }
     } else {
       errorDiv.textContent = 'Please select a valid email address.';
       setTimeout(function () {
@@ -41,9 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 1000);
     }
   });
-
-  function addImage(email) {
-    const imageUrl = currentImage.src;
+  
+  function addImage(email, imageUrl) {
     // Create a new image element to check if the image is valid
     const img = new Image();
     img.onload = function () {
@@ -56,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         saveImageAssignmentsToLocalStorage();
         clearCurrentImage();
         errorDiv.innerHTML = '';
+  
         // Check if the option already exists before adding a new one
         const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
         if (!optionExists) {
@@ -65,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
           option.text = email;
           emailDropdown.add(option);
         }
+  
+        // Change "Cancel" button text to "New Email"
+        newEmailButton.textContent = 'New Email';
       } else {
         // If the image is not valid, show an error
         errorDiv.textContent = 'This image has been assigned to the email already.';
@@ -72,6 +84,13 @@ document.addEventListener('DOMContentLoaded', function () {
           errorDiv.textContent = '';
         }, 1000);
       }
+    };
+    img.onerror = function () {
+      // If the image is broken, show an error
+      errorDiv.textContent = 'Please select a valid image.';
+      setTimeout(function () {
+        errorDiv.textContent = '';
+      }, 1000);
     };
     img.src = imageUrl;
   }
@@ -93,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function checkImageCountAndAppendButton() {
     const activeEmail = getCurrentEmail();
   
-    // Remove existing buttons before adding a new one
+    // Remove all existing buttons
     assignedImagesContainer.querySelectorAll('.clear-images-button').forEach(button => {
       button.remove();
     });
@@ -101,11 +120,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (activeEmail && imageAssignments[activeEmail]) {
       const imageCount = imageAssignments[activeEmail].length;
   
-      if (imageCount > 8) {
+      if (imageCount >= 8 && emailDropdown.value === activeEmail) {
+        // Check if the selected email is the active email
         // Append a button to clear images
         const clearImagesButton = document.createElement('button');
         clearImagesButton.textContent = 'Clear Images';
         clearImagesButton.classList.add('clear-images-button');
+        clearImagesButton.dataset.email = activeEmail;
         clearImagesButton.addEventListener('click', function () {
           clearImagesForEmail(activeEmail);
         });
@@ -116,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   
-   
   nextImageButton.addEventListener('click', function () {
     const email = getCurrentEmail();
     loadRandomImage().then(function (imageUrl) {
