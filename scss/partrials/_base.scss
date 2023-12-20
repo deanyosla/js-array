@@ -10,6 +10,17 @@ body {
   letter-spacing: 0.4px !important;
 }
 
+// Media queries
+
+@include iPad_mini {
+  body {
+    display: flex;
+    flex-direction: row;
+  }
+  .container {
+    width: 45% !important;
+  }
+}
 @include xl {
   body {
     display: flex;

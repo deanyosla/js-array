@@ -53,6 +53,11 @@ $landscape-height: 450px;
   }
 }
 
+@mixin iPad_mini {
+  @media (min-width: 1024px) and (min-height: map-get($b-point, "md")) {
+    @content;
+  }
+}
 @mixin lg {
   @media (min-width: map-get($b-point, "lg")) {
     @content;

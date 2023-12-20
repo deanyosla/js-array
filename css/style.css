@@ -11,6 +11,15 @@ body {
   letter-spacing: 0.4px !important;
 }
 
+@media (min-width: 1024px) and (min-height: 768px) {
+  body {
+    display: flex;
+    flex-direction: row;
+  }
+  .container {
+    width: 45% !important;
+  }
+}
 @media (min-width: 1200px) {
   body {
     display: flex;
