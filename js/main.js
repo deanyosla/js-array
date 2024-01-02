@@ -52,50 +52,49 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       
       function addImage(email, imageUrl) {
-          const img = new Image();
-          
-          img.onload = function () {
-            const imageId = generateImageId();
-            const currentImageInfo = { email, imageUrl, imageId };
-        
-            if (!isImageAssigned(email, imageUrl) && !isDuplicateImage(email, currentImageInfo)) {
-              assignImageToEmail(email, currentImageInfo);
-              updateImageContainer();
-              saveEmailToLocalStorage(email);
-              saveImageAssignmentsToLocalStorage();
-              clearCurrentImage();
-              errorDiv.innerHTML = '';
-        
-              const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
-        
-              if (!optionExists) {
-                const option = document.createElement('option');
-                option.value = email;
-                option.text = email;
-                emailDropdown.add(option);
-              }
-        
-              newEmailButton.textContent = 'New Email';
-            } else {
-              errorDiv.textContent = 'This image has been assigned to the email already.';
-              setTimeout(function () {
-                errorDiv.textContent = '';
-              }, 1000);
+        const img = new Image();
+      
+        img.onload = function () {
+          const imageId = generateImageId();
+          const currentImageInfo = { email, imageUrl, imageId };
+      
+          if (!isImageAssigned(email, currentImageInfo.imageId) && !isDuplicateImage(email, currentImageInfo)) {
+            assignImageToEmail(email, currentImageInfo);
+            updateImageContainer();
+            saveEmailToLocalStorage(email);
+            saveImageAssignmentsToLocalStorage();
+            clearCurrentImage();
+            errorDiv.innerHTML = '';
+      
+            const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
+      
+            if (!optionExists) {
+              const option = document.createElement('option');
+              option.value = email;
+              option.text = email;
+              emailDropdown.add(option);
             }
-          };
-          img.onerror = function () {
-            // If the image is broken, show an error
-        
-          img.onerror = function () {
-            errorDiv.textContent = 'Please select a valid image.';
+      
+            newEmailButton.textContent = 'New Email';
+          } else {
+            errorDiv.textContent = 'This image has been assigned to the email already.';
             setTimeout(function () {
               errorDiv.textContent = '';
             }, 1000);
-          };
-          img.src = imageUrl;
-        }
-      };
-
+          }
+        };
+      
+        img.onerror = function () {
+          // If the image is broken, show an error
+          errorDiv.textContent = 'Please select a valid image.';
+          setTimeout(function () {
+            errorDiv.textContent = '';
+          }, 1000);
+        };
+      
+        img.src = imageUrl;
+      }
+      
       function isDuplicateImage(email, currentImageInfo) {
         return (
           imageAssignments[email]?.some(info =>
@@ -153,7 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
       
       nextImageButton.addEventListener('click', function () {
         const email = getCurrentEmail();
-        loadRandomImage().then(function ({ imageUrl, imageId }) {
+        loadRandomImage().then(function (result) {
+          const { imageUrl, imageId } = result;
           currentImageInfo = { email, imageUrl, imageId }; // Assign the imageId when loading a random image
           if (!isImageAssigned(email, currentImageInfo.imageId)) {
             currentImage.src = imageUrl;
@@ -219,36 +219,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
       function loadRandomImage(email) {
         const imagesForEmail = imageAssignments[email] || [];
+      
         if (imagesForEmail.length > 0) {
-          return Promise.resolve(imagesForEmail[0].imageUrl);
+          const randomIndex = Math.floor(Math.random() * imagesForEmail.length);
+          const { imageUrl, imageId } = imagesForEmail[randomIndex];
+          return Promise.resolve({ imageUrl, imageId });
         } else {
-          const imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
-          return Promise.resolve(imageUrl);
+          return fetch('https://picsum.photos/v2/list?page=1&limit=100')
+            .then(response => response.json())
+            .then(images => {
+              const randomImage = images[Math.floor(Math.random() * images.length)];
+              const imageUrl = getImageUrlById(randomImage.id);
+              return { imageUrl, imageId: randomImage.id };
+            })
+            .catch(error => {
+              console.error('Error fetching images:', error);
+              return { imageUrl: `https://picsum.photos/200?random=${Math.random()}`, imageId: null };
+            });
         }
       }
-      
-        return new Promise(function (resolve) {
-          const imagesForEmail = imageAssignments[email] || [];
-          const imageId = imagesForEmail.length > 0 ? imagesForEmail[0].imageId : null;
-      
-          if (imageId) {
-            // If an image is assigned, use its ID to get the specific image URL
-            resolve(getImageUrlById(imageId));
-          } else {
-            // If no image is assigned, fetch a list of images and select one
-            fetch('https://picsum.photos/v2/list?page=1&limit=100')
-              .then(response => response.json())
-              .then(images => {
-                const randomImage = images[Math.floor(Math.random() * images.length)];
-                const imageUrl = getImageUrlById(randomImage.id);
-                resolve({ imageUrl, imageId: randomImage.id });
-              })
-              .catch(error => {
-                console.error('Error fetching images:', error);
-                resolve({ imageUrl: `https://picsum.photos/200?random=${Math.random()}`, imageId: null });
-              });
-          }
-        });
       
       function getImageUrlById(imageId) {
         // Use the ID to create a specific image URL
@@ -334,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check each email's images and update them to valid URLs
         Object.keys(imageAssignments).forEach(email => {
           imageAssignments[email].forEach(imageInfo => {
-            const img = new Image();
+            img = new Image();
             img.onload = function () {
               // If the image is valid, update the image URL
               imageInfo.imageUrl = img.src;
