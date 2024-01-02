@@ -52,76 +52,50 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       
       function addImage(email, imageUrl) {
-        // Create a new image element to check if the image is valid
-        const img = new Image();
-        img.onload = function () {
-          // If the image is valid, proceed with assignment
-          currentImageInfo = { email, imageUrl };
-          if (!isImageAssigned(email, imageUrl)) {
-            assignImageToEmail(email, currentImageInfo);
-            updateImageContainer();
-            saveEmailToLocalStorage(email);
-            saveImageAssignmentsToLocalStorage();
-            clearCurrentImage();
-            errorDiv.innerHTML = '';
-      
-            // Check if the option already exists before adding a new one
-            const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
-            if (!optionExists) {
-              // Add the new option to the dropdown
-              const option = document.createElement('option');
-              option.value = email;
-              option.text = email;
-              emailDropdown.add(option);
+          const img = new Image();
+          
+          img.onload = function () {
+            const imageId = generateImageId();
+            const currentImageInfo = { email, imageUrl, imageId };
+        
+            if (!isImageAssigned(email, imageUrl) && !isDuplicateImage(email, currentImageInfo)) {
+              assignImageToEmail(email, currentImageInfo);
+              updateImageContainer();
+              saveEmailToLocalStorage(email);
+              saveImageAssignmentsToLocalStorage();
+              clearCurrentImage();
+              errorDiv.innerHTML = '';
+        
+              const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
+        
+              if (!optionExists) {
+                const option = document.createElement('option');
+                option.value = email;
+                option.text = email;
+                emailDropdown.add(option);
+              }
+        
+              newEmailButton.textContent = 'New Email';
+            } else {
+              errorDiv.textContent = 'This image has been assigned to the email already.';
+              setTimeout(function () {
+                errorDiv.textContent = '';
+              }, 1000);
             }
-      
-            // Change "Cancel" button text to "New Email"
-            newEmailButton.textContent = 'New Email';
-          } else {
-            // If the image is not valid, show an error
-        const img = new Image();
-      
-        img.onload = function () {
-          const imageId = generateImageId();
-          const currentImageInfo = { email, imageUrl, imageId };
-      
-          if (!isImageAssigned(email, imageUrl) && !isDuplicateImage(email, currentImageInfo)) {
-            assignImageToEmail(email, currentImageInfo);
-            updateImageContainer();
-            saveEmailToLocalStorage(email);
-            saveImageAssignmentsToLocalStorage();
-            clearCurrentImage();
-            errorDiv.innerHTML = '';
-      
-            const optionExists = Array.from(emailDropdown.options).some(option => option.value === email);
-      
-            if (!optionExists) {
-              const option = document.createElement('option');
-              option.value = email;
-              option.text = email;
-              emailDropdown.add(option);
-            }
-      
-            newEmailButton.textContent = 'New Email';
-          } else {
-            errorDiv.textContent = 'This image has been assigned to the email already.';
+          };
+          img.onerror = function () {
+            // If the image is broken, show an error
+        
+          img.onerror = function () {
+            errorDiv.textContent = 'Please select a valid image.';
             setTimeout(function () {
               errorDiv.textContent = '';
             }, 1000);
-          }
-        };
-        img.onerror = function () {
-          // If the image is broken, show an error
-      
-        img.onerror = function () {
-          errorDiv.textContent = 'Please select a valid image.';
-          setTimeout(function () {
-            errorDiv.textContent = '';
-          }, 1000);
-        };
-        img.src = imageUrl;
-      }
-  
+          };
+          img.src = imageUrl;
+        }
+      };
+
       function isDuplicateImage(email, currentImageInfo) {
         return (
           imageAssignments[email]?.some(info =>
@@ -275,7 +249,6 @@ document.addEventListener('DOMContentLoaded', function () {
               });
           }
         });
-      }
       
       function getImageUrlById(imageId) {
         // Use the ID to create a specific image URL
@@ -391,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
       function clearCurrentImage() {
         currentImageInfo = {};
       }
-}); 
+});
 
 
 
