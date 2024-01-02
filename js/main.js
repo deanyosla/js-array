@@ -240,20 +240,23 @@ document.addEventListener('DOMContentLoaded', function () {
           const { imageUrl, imageId } = imagesForEmail[randomIndex];
           return Promise.resolve({ imageUrl, imageId });
         } else {
-          return fetch('https://picsum.photos/v2/list?page=1&limit=100')
-            .then(response => response.json())
-            .then(images => {
-              const randomImage = images[Math.floor(Math.random() * images.length)];
-              const imageUrl = getImageUrlById(randomImage.id);
-              return { imageUrl, imageId: randomImage.id };
-            })
-            .catch(error => {
-              console.error('Error fetching images:', error);
-              return { imageUrl: `https://picsum.photos/200?random=${Math.random()}`, imageId: null };
-            });
+          const randomIdWithinRange = Math.floor(Math.random() * 1084) + 1; // Generate random ID within the valid range
+          const imageUrl = getImageUrlById(randomIdWithinRange);
+      
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = function () {
+              resolve({ imageUrl, imageId: randomIdWithinRange });
+            };
+            img.onerror = function () {
+              console.error('Error loading image:', imageUrl);
+              return true;
+            };
+            img.src = imageUrl;
+          });
         }
       }
-      
+
       function getImageUrlById(imageId) {
         // Use the ID to create a specific image URL
         return `https://picsum.photos/id/${imageId}/200/200`;
