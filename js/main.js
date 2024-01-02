@@ -15,15 +15,21 @@ document.addEventListener('DOMContentLoaded', function () {
       let currentImageInfo = {};
 
       function initialize() {
-          // Populate the dropdown with saved emails from localStorage
-      populateDropdown();
-
-      // Set a default image source
-      currentImage.src = 'https://picsum.photos/200';
+        // Populate the dropdown with saved emails from localStorage
+        populateDropdown();
+      
+        // Clear the saved default image ID to force a new random ID on page refresh
+        localStorage.removeItem('defaultImageId');
+      
+        // Set a default image source with a new random ID
+        loadRandomImage().then(({ imageUrl, imageId }) => {
+          currentImage.src = imageUrl;
+        });
+      
         // Call the function to load assigned images from local storage when the script starts
         loadImageAssignmentsFromLocalStorage();
       }
-
+            
       initialize();
 
       addImageButton.addEventListener('click', function () {
@@ -31,14 +37,29 @@ document.addEventListener('DOMContentLoaded', function () {
         const imageUrl = currentImage.src;
       
         if (isValidEmail(email)) {
-          if (imageUrl && !isImageAssigned(email, imageUrl)) {
-            addImage(email, imageUrl); // Pass the imageUrl directly
-            checkImageCountAndAppendButton();
-            emailDropdown.value = email;
-            emailContainer.classList.add('hidden');
-            dropdownContainer.classList.remove('hidden');
+          if (imageUrl) {
+            const existingImages = imageAssignments[email] || [];
+            const existingImageIds = existingImages.map(info => info.imageId);
+      
+            if (!isImageAssigned(email, imageUrl)) {
+              // Check if the current image has an ID
+              if (!currentImageInfo.imageId) {
+                currentImageInfo.imageId = generateImageId();
+              }
+      
+              addImage(email, imageUrl, currentImageInfo.imageId);
+              checkImageCountAndAppendButton();
+              emailDropdown.value = email;
+              emailContainer.classList.add('hidden');
+              dropdownContainer.classList.remove('hidden');
+            } else {
+              errorDiv.textContent = 'This image is already assigned to the selected email.';
+              setTimeout(function () {
+                errorDiv.textContent = '';
+              }, 1000);
+            }
           } else {
-            errorDiv.textContent = 'This image is already assigned to the selected email.';
+            errorDiv.textContent = 'Please select a valid image.';
             setTimeout(function () {
               errorDiv.textContent = '';
             }, 1000);
@@ -58,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const imageId = generateImageId();
           const currentImageInfo = { email, imageUrl, imageId };
       
-          if (!isImageAssigned(email, imageUrl) && !isDuplicateImage(email, currentImageInfo)) {
+          if (!isImageAssigned(email, imageId) && !isDuplicateImage(email, currentImageInfo)) {
             assignImageToEmail(email, currentImageInfo);
             updateImageContainer();
             saveEmailToLocalStorage(email);
@@ -91,9 +112,11 @@ document.addEventListener('DOMContentLoaded', function () {
           }, 1000);
         };
       
+        // Set the image source after setting the onload and onerror handlers
         img.src = imageUrl;
       }
-            
+      
+                       
       function isDuplicateImage(email, currentImageInfo) {
         return (
           imageAssignments[email]?.some(info =>
@@ -240,6 +263,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!imageAssignments[email]) {
           imageAssignments[email] = [];
         }
+      
+        // Check if the image already has an ID, generate one if not
+        if (!imageInfo.imageId) {
+          imageInfo.imageId = generateImageId();
+        }
+      
         imageAssignments[email].push(imageInfo);
         checkImageCountAndAppendButton();
         saveImageAssignmentsToLocalStorage();
@@ -310,28 +339,36 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       function loadImageAssignmentsFromLocalStorage() {
-        const savedImageAssignments = JSON.parse(localStorage.getItem('imageAssignerImages')) || {};
-        imageAssignments = savedImageAssignments;
-        // Check each email's images and update them to valid URLs
-        Object.keys(imageAssignments).forEach(email => {
-          imageAssignments[email].forEach(imageInfo => {
-            const img = new Image();
-            img.onload = function () {
-              // If the image is valid, update the image URL
-              imageInfo.imageUrl = img.src;
-              // Also set the imageId based on the saved data
-              imageInfo.imageId = generateImageId();
-            };
-            img.onerror = function () {
-              // If the image is broken, generate a random one
-              imageInfo.imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
-              // Set a new unique imageId for the broken image
-              imageInfo.imageId = generateImageId();
-            };
-            img.src = imageInfo.imageUrl;
-          });          
+        return new Promise((resolve) => {
+          const savedImageAssignments = JSON.parse(localStorage.getItem('imageAssignerImages')) || {};
+          imageAssignments = savedImageAssignments;
+      
+          // Check each email's images and update them to valid URLs
+          const promises = Object.keys(imageAssignments).map(email => {
+            return Promise.all(imageAssignments[email].map(async imageInfo => {
+              const img = new Image();
+              img.onload = function () {
+                // If the image is valid, update the image URL
+                imageInfo.imageUrl = img.src;
+              };
+              img.onerror = function () {
+                // If the image is broken, generate a random one
+                imageInfo.imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
+              };
+              img.src = imageInfo.imageUrl;
+      
+              // If the image ID is missing, assign a new one
+              if (!imageInfo.imageId) {
+                imageInfo.imageId = generateImageId();
+              }
+            }));
+          });
+      
+          Promise.all(promises).then(() => {
+            saveImageAssignmentsToLocalStorage(); // Save the updated image URLs
+            resolve();
+          });
         });
-        saveImageAssignmentsToLocalStorage(); // Save the updated image URLs
       }
 
       function generateImageId() {
