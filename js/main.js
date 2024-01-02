@@ -365,6 +365,3 @@ document.addEventListener('DOMContentLoaded', function () {
         currentImageInfo = {};
       }
 });
-
-
-
