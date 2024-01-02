@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const imageId = generateImageId();
           const currentImageInfo = { email, imageUrl, imageId };
       
-          if (!isImageAssigned(email, currentImageInfo.imageId) && !isDuplicateImage(email, currentImageInfo)) {
+          if (!isImageAssigned(email, imageUrl) && !isDuplicateImage(email, currentImageInfo)) {
             assignImageToEmail(email, currentImageInfo);
             updateImageContainer();
             saveEmailToLocalStorage(email);
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
         };
       
         img.onerror = function () {
-          // If the image is broken, show an error
           errorDiv.textContent = 'Please select a valid image.';
           setTimeout(function () {
             errorDiv.textContent = '';
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
         img.src = imageUrl;
       }
-      
+            
       function isDuplicateImage(email, currentImageInfo) {
         return (
           imageAssignments[email]?.some(info =>
@@ -152,20 +151,13 @@ document.addEventListener('DOMContentLoaded', function () {
       
       nextImageButton.addEventListener('click', function () {
         const email = getCurrentEmail();
-        loadRandomImage().then(function (result) {
-          const { imageUrl, imageId } = result;
-          currentImageInfo = { email, imageUrl, imageId }; // Assign the imageId when loading a random image
-          if (!isImageAssigned(email, currentImageInfo.imageId)) {
-            currentImage.src = imageUrl;
-            errorDiv.innerHTML = '';
-          } else {
-            errorDiv.textContent = 'This image is already assigned to the selected email.';
-            setTimeout(function () {
-              errorDiv.textContent = '';
-            }, 1000);
-          }
+        loadRandomImage().then(function ({ imageUrl, imageId }) {
+          currentImageInfo = { email, imageUrl, imageId };
+          currentImage.src = imageUrl;
+          errorDiv.innerHTML = '';
         });
       });
+      
 
       newEmailButton.addEventListener('click', function () {
         if (emailContainer.classList.contains('hidden')) {
@@ -323,23 +315,27 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check each email's images and update them to valid URLs
         Object.keys(imageAssignments).forEach(email => {
           imageAssignments[email].forEach(imageInfo => {
-            img = new Image();
+            const img = new Image();
             img.onload = function () {
               // If the image is valid, update the image URL
               imageInfo.imageUrl = img.src;
+              // Also set the imageId based on the saved data
+              imageInfo.imageId = generateImageId();
             };
             img.onerror = function () {
               // If the image is broken, generate a random one
               imageInfo.imageUrl = `https://picsum.photos/200?random=${Math.random()}`;
+              // Set a new unique imageId for the broken image
+              imageInfo.imageId = generateImageId();
             };
             img.src = imageInfo.imageUrl;
-          });
+          });          
         });
         saveImageAssignmentsToLocalStorage(); // Save the updated image URLs
       }
 
       function generateImageId() {
-        return Math.floor(Math.random() * 1000000).toString();
+        return Date.now().toString() + Math.floor(Math.random() * 1000000).toString();
       }
       
       function populateDropdown() {
