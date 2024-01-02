@@ -49,7 +49,6 @@ button {
   width: 80%;
   cursor: pointer;
 }
-
 button:hover {
   background-color: #45a049 !important;
   color: #fff !important;
@@ -67,6 +66,7 @@ button:hover {
     width: 35%;
   }
 }
+
 #error {
   display: inline-flex;
   color: rgba(255, 0, 0, 0.8509803922);
@@ -97,7 +97,6 @@ button:hover {
   flex-wrap: wrap;
   align-content: center;
 }
-
 #dropdownContainer #emailDropdown {
   width: 70%;
   padding: 8px;
@@ -106,7 +105,6 @@ button:hover {
   font-weight: 400;
   border-radius: 5px;
 }
-
 #dropdownContainer #emailDropdown:focus {
   outline: none;
 }
@@ -114,7 +112,6 @@ button:hover {
 #currentImageContainer {
   margin-top: 20px;
 }
-
 #currentImageContainer #currentImage {
   max-width: 100%;
   max-height: 300px;
@@ -145,7 +142,6 @@ button:hover {
   flex-direction: column;
   justify-content: center;
 }
-
 #imageContainer img {
   max-width: 100%;
   max-height: 200px;
@@ -153,11 +149,9 @@ button:hover {
   margin: 5px;
   transition: transform 0.2s;
 }
-
 #imageContainer img:hover {
   transform: scale(1.15);
 }
-
 #imageContainer h2 {
   flex-wrap: nowrap;
 }
@@ -184,7 +178,6 @@ button:hover {
   text-align: center;
   max-height: 800px;
 }
-
 .container.overflow {
   overflow-y: scroll;
 }
@@ -192,6 +185,4 @@ button:hover {
 .top-head {
   display: flex;
   flex-direction: row;
-} 
-
-/*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */
