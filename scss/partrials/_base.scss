@@ -15,7 +15,12 @@ body {
 header {
   padding: 1rem;
   margin: 2rem auto;
+  h1 {
+    align-self: center;
+  }
 }
+
+
 // Media queries
 
 @include iPad_mini {
