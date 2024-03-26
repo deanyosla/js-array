@@ -1,4 +1,6 @@
-* {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,8 +13,13 @@ body {
   letter-spacing: 0.4px !important;
 }
 
+header {
+  padding: 1rem;
+  margin: 2rem auto;
+}
+
 @media (min-width: 1024px) and (min-height: 768px) {
-  body {
+  .container-wrap {
     display: flex;
     flex-direction: row;
   }
@@ -21,9 +28,10 @@ body {
   }
 }
 @media (min-width: 1200px) {
-  body {
+  .container-wrap {
     display: flex;
     flex-direction: row;
+    margin: 1rem auto;
   }
   .container {
     width: 45% !important;
@@ -49,7 +57,6 @@ button {
   width: 80%;
   cursor: pointer;
 }
-
 button:hover {
   background-color: #45a049 !important;
   color: #fff !important;
@@ -67,6 +74,7 @@ button:hover {
     width: 35%;
   }
 }
+
 #error {
   display: inline-flex;
   color: rgba(255, 0, 0, 0.8509803922);
@@ -97,7 +105,6 @@ button:hover {
   flex-wrap: wrap;
   align-content: center;
 }
-
 #dropdownContainer #emailDropdown {
   width: 70%;
   padding: 8px;
@@ -106,7 +113,6 @@ button:hover {
   font-weight: 400;
   border-radius: 5px;
 }
-
 #dropdownContainer #emailDropdown:focus {
   outline: none;
 }
@@ -114,7 +120,6 @@ button:hover {
 #currentImageContainer {
   margin-top: 20px;
 }
-
 #currentImageContainer #currentImage {
   max-width: 100%;
   max-height: 300px;
@@ -145,7 +150,6 @@ button:hover {
   flex-direction: column;
   justify-content: center;
 }
-
 #imageContainer img {
   max-width: 100%;
   max-height: 200px;
@@ -153,11 +157,9 @@ button:hover {
   margin: 5px;
   transition: transform 0.2s;
 }
-
 #imageContainer img:hover {
   transform: scale(1.15);
 }
-
 #imageContainer h2 {
   flex-wrap: nowrap;
 }
@@ -184,7 +186,6 @@ button:hover {
   text-align: center;
   max-height: 800px;
 }
-
 .container.overflow {
   overflow-y: scroll;
 }
@@ -192,6 +193,13 @@ button:hover {
 .top-head {
   display: flex;
   flex-direction: row;
-} 
+}
+
+.container-wrap {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 
 /*# sourceMappingURL=index.css.map */

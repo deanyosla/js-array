@@ -1,4 +1,6 @@
-* {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,10 +12,14 @@ body {
   letter-spacing: 0.4px !important;
 }
 
+header {
+  padding: 1rem;
+  margin: 2rem auto;
+}
 // Media queries
 
 @include iPad_mini {
-  body {
+  .container-wrap {
     display: flex;
     flex-direction: row;
   }
@@ -22,9 +28,10 @@ body {
   }
 }
 @include xl {
-  body {
+  .container-wrap {
     display: flex;
     flex-direction: row;
+    margin: 1rem auto;
   }
   .container {
     width: 45% !important;
